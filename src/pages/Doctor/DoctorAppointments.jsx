@@ -43,6 +43,7 @@ const DoctorAppointments = () => {
                                     {item.payment ? "Online" : "Cash"}
                                 </p>
                             </div>
+                            {console.log(item.userData.gender)}
                             <p className='max-sm:hidden'>{calculateAge(item.userData.dob)}</p>
                             <p >{slotDateFormate(item.slotDate)}, {item.slotTime}</p>
                             <p>{currency}{item.amount}</p>
