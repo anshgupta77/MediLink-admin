@@ -4,15 +4,18 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { DoctorContext } from '../context/DoctorContext';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
 
   const [state, setState] = useState("Admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { setAToken, backendUrl } = useContext(AdminContext);
   const { setDToken } = useContext(DoctorContext);
+
 
   const navigate = useNavigate();
 
@@ -61,13 +64,26 @@ const Login = () => {
         </div>
         <div className='w-full'>
           <p>Password:</p>
-          <input value={password} onChange={(e) => setPassword(e.target.value)} className='border border-[#DADADA] rounded w-full p-2 mt-1' type="password" required />
+          <div className='relative'>
+              <input value={password} type={showPassword ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} className='border border-[#DADADA] rounded w-full p-2 mt-1' required />
+              <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            >
+              {showPassword ? (
+                <EyeOff size={20} className="text-gray-500" />
+              ) : (
+                <Eye size={20} className="text-gray-500" />
+              )}
+            </button>
+          </div>
         </div>
         <button className='bg-primary text-white w-full py-2 rounded-md text-base'>Login</button>
         {
           state === "Admin" ?
-            <p>Login as Doctor? <span className='text-primary underline cursor-pointer' onClick={() => setState("Doctor")}>Click here</span></p> :
-            <p>Login as Admin? <span className='text-primary underline cursor-pointer' onClick={() => setState("Admin")}>Click here</span></p>
+            <p>For login as Doctor? <span className='text-primary hover:underline cursor-pointer' onClick={() => setState("Doctor")}>Click here</span></p> :
+            <p>For login as Admin? <span className='text-primary hover:underline cursor-pointer' onClick={() => setState("Admin")}>Click here</span></p>
         }
       </div>
     </form>
