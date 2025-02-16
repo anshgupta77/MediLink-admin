@@ -38,7 +38,7 @@ const Navbar = () => {
           <h1
             className="text-xl sm:text-2xl font-bold"
           >
-            Appointify
+            DocOn
           </h1>
           <p className="text-sm sm:text-base text-gray-500">
             Dashboard Panel
