@@ -11,13 +11,13 @@ const AddDoctor = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [experience, setExperience] = useState("1 Year")
-  const [fees, setFees] = useState(0)
-  const [about, setAbout] = useState("")
+  const [experience, setExperience] = useState("4")
+  const [fees, setFees] = useState(250)
+  const [about, setAbout] = useState("Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.")
   const [speciality, setSpeciality] = useState("General physician")
-  const [degree, setDegree] = useState("")
-  const [address1, setAddress1] = useState("")
-  const [address2, setAddress2] = useState("")
+  const [degree, setDegree] = useState("MBBS")
+  const [address1, setAddress1] = useState("57th Cross, Richmond")
+  const [address2, setAddress2] = useState("Circle, Ring Road, London")
 
   const { backendUrl, aToken } = useContext(AdminContext)
 
@@ -56,13 +56,13 @@ const AddDoctor = () => {
         setName("")
         setEmail("")
         setPassword("")
-        setExperience("1 Year")
-        setFees(0)
-        setAbout("")
+        setExperience("4")
+        setFees(250)
+        setAbout("Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies. Dr. Davis has a strong commitment to delivering comprehensive medical care, focusing on preventive medicine, early diagnosis, and effective treatment strategies.")
         setSpeciality("General physician")
-        setDegree("")
-        setAddress1("")
-        setAddress2("")
+        setDegree("MBBS")
+        setAddress1("57th Cross, Richmond")
+        setAddress2("Circle, Ring Road, London")
       } else {
         toast.error(data.message)
       }
@@ -101,7 +101,7 @@ const AddDoctor = () => {
 
             <div className='flex-1 flex flex-col gap-1'>
               <p>Doctor Password</p>
-              <input onChange={(e) => setPassword(e.target.value)} value={password} className='border rounded px-3 py-2' type="password" placeholder='Password' required />
+              <input onChange={(e) => setPassword(e.target.value)} value={password} className='border rounded px-3 py-2' type="string" placeholder='Password' required />
             </div>
 
             <div className='flex-1 flex flex-col gap-1'>
