@@ -12,8 +12,14 @@ const DoctorContextProvider = (props) => {
   const [appointments, setAppointments] = useState([]);
   const [dashData, setDashData] = useState(false);
   const [profileData, setProfileData] = useState(false);
+  const [loadingGetAppointments, setLoadingGetAppointments] = useState(true);
+  const [loadingGetDashData, setLoadingGetDashData] = useState(true);
+  const [loadingGetProfileData, setLoadingGetProfileData] = useState(true);
+  const [loadingCompleteAppointment, setLoadingCompleteAppointment] = useState(false);
+  const [loadingCancelAppointment, setLoadingCancelAppointment] = useState(false);
 
   const getAppointments = async () => {
+    setLoadingGetAppointments(true);
     try {
       const { data } = await axios.get(`${backendUrl}/api/doctor/appointments`, { headers: { dToken } });
       if (data.success) {
@@ -25,10 +31,13 @@ const DoctorContextProvider = (props) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingGetAppointments(false);
     }
   }
 
   const completeAppointment = async (appointmentId) => {
+    setLoadingCompleteAppointment(true);
     try {
       const { data } = await axios.post(`${backendUrl}/api/doctor/completed-appointment`, { appointmentId }, { headers: { dToken } });
       if (data.success) {
@@ -40,10 +49,13 @@ const DoctorContextProvider = (props) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingCompleteAppointment(false);
     }
   }
 
   const cancelAppointment = async (appointmentId) => {
+    setLoadingCancelAppointment(true);
     try {
       const { data } = await axios.post(`${backendUrl}/api/doctor/cancel-appointment`, { appointmentId }, { headers: { dToken } });
       if (data.success) {
@@ -55,10 +67,13 @@ const DoctorContextProvider = (props) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingCancelAppointment(false);
     }
   }
 
   const getDashData = async () => {
+    setLoadingGetDashData(true);
     try {
       const { data } = await axios.get(`${backendUrl}/api/doctor/dashboard`, { headers: { dToken } });
       if (data.success) {
@@ -70,10 +85,13 @@ const DoctorContextProvider = (props) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingGetDashData(false);
     }
   }
 
   const getProfileData = async () => {
+    setLoadingGetProfileData(true);
     try {
       const { data } = await axios.get(`${backendUrl}/api/doctor/profile`, { headers: { dToken } });
       if (data.success) {
@@ -84,6 +102,8 @@ const DoctorContextProvider = (props) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingGetProfileData(false);
     }
   }
 
@@ -97,7 +117,12 @@ const DoctorContextProvider = (props) => {
     dashData, setDashData,
     getDashData,
     profileData, setProfileData,
-    getProfileData
+    getProfileData,
+    loadingGetAppointments,
+    loadingGetDashData,
+    loadingGetProfileData,
+    loadingCompleteAppointment,
+    loadingCancelAppointment
   };
 
   return (

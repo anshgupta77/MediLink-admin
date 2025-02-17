@@ -2,18 +2,25 @@ import React, { useContext, useEffect } from 'react'
 import { AdminContext } from '../../context/AdminContext';
 import { assets } from '../../assets/assets_admin/assets';
 import { AppContext } from '../../context/AppContext';
-
+import LoadingOverlay from '../../components/LoadingOverlay';
+import { useState } from 'react'; 
 const Dashboard = () => {
 
-  const { aToken, getDeshData, cancelAppointment, dashData } = useContext(AdminContext);
+  const { aToken, getDeshData, cancelAppointment, dashData, loadingGetDeshData } = useContext(AdminContext);
   const { slotDateFormate } = useContext(AppContext);
 
-  useEffect(() => {
+
+  useEffect(() => { 
     if (aToken) {
       getDeshData();
     }
   }, [aToken]);
 
+  if(loadingGetDeshData){
+    return (
+      <LoadingOverlay/>
+    )
+  }
 
   return dashData && (
     <div className='w-full max-w-6xl m-5'>
@@ -64,7 +71,7 @@ const Dashboard = () => {
                   ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
                   : item.isCompleted
                     ? <p className='text-green-400 text-xs font-medium'>Completed</p>
-                    : <img onClick={() => cancelAppointment(item._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
+                    : <p className='text-gray-700 text-xs font-medium'>Pending</p>
                 }
               </div>
             ))

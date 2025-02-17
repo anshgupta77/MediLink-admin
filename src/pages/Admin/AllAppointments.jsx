@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react'
 import { AdminContext } from '../../context/AdminContext';
 import { AppContext } from '../../context/AppContext';
 import { assets } from '../../assets/assets_admin/assets';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 const AllAppointments = () => {
 
-  const { aToken, appointments, getAllAppointments, cancelAppointment } = useContext(AdminContext);
+  const { aToken, appointments, getAllAppointments, cancelAppointment, loadingGetAllAppointments } = useContext(AdminContext);
   const { calculateAge, slotDateFormate, currency } = useContext(AppContext);
 
 
@@ -14,6 +15,12 @@ const AllAppointments = () => {
       getAllAppointments();
     }
   }, [aToken]);
+
+  if (loadingGetAllAppointments) {
+    return (
+      <LoadingOverlay />
+    )
+  }
 
   return (
     <div className='w-full max-w-6xl m-5'>
@@ -48,7 +55,7 @@ const AllAppointments = () => {
               ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
               : item.isCompleted
                 ? <p className='text-green-400 text-xs font-medium'>Completed</p>
-                : <img onClick={() => cancelAppointment(item._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
+                : <p className='text-gray-700 text-xs font-medium'>Pending</p>
             }
 
           </div>

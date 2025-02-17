@@ -1,15 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import { AdminContext } from '../../context/AdminContext'
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 const DoctorsList = () => {
 
-  const { doctors, aToken, getAllDoctors, changeAvailability } = useContext(AdminContext);
+  const { doctors, aToken, getAllDoctors, changeAvailability, loadingGetAllDoctors } = useContext(AdminContext);
 
   useEffect(() => {
     if (aToken) {
       getAllDoctors();
     }
   }, [aToken]);
+
+  if (loadingGetAllDoctors) {
+    return (
+      <LoadingOverlay />
+    )
+  }
 
   return (
     <div className='w-full max-w-6xl m-5 max-h-[90vh] overflow-y-scroll'>

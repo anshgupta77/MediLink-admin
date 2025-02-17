@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { assets } from '../../assets/assets_admin/assets'
 import { AdminContext } from '../../context/AdminContext'
 import { toast } from 'react-toastify'
+import LoadingOverlay from '../../components/LoadingOverlay'
 import axios from 'axios'
 
 
@@ -18,12 +19,12 @@ const AddDoctor = () => {
   const [degree, setDegree] = useState("MBBS")
   const [address1, setAddress1] = useState("57th Cross, Richmond")
   const [address2, setAddress2] = useState("Circle, Ring Road, London")
-
+  const [loading, setLoading] = useState(false)
   const { backendUrl, aToken } = useContext(AdminContext)
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
-
+    setLoading(true)
     try {
 
       if (!docImg) {
@@ -69,8 +70,16 @@ const AddDoctor = () => {
     } catch (error) {
       toast.error(error.message)
       console.log(error)
+    } finally {
+      setLoading(false)
     }
 
+  }
+  
+  if(loading){
+    return (
+      <LoadingOverlay/>
+    )
   }
 
   return (

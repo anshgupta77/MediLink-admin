@@ -1,19 +1,27 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DoctorContext } from '../../context/DoctorContext';
 import { AppContext } from '../../context/AppContext';
 import { assets } from '../../assets/assets_admin/assets';
-
+import LoadingOverlay from '../../components/LoadingOverlay';
 const DoctorAppointments = () => {
 
-    const { dToken, appointments, getAppointments, completeAppointment, cancelAppointment } = useContext(DoctorContext);
+    const { dToken, appointments, getAppointments, completeAppointment, cancelAppointment , loadingGetAppointments, loadingCompleteAppointment, loadingCancelAppointment } = useContext(DoctorContext);
     const { calculateAge, slotDateFormate, currency } = useContext(AppContext);
 
+    
     useEffect(() => {
         if (dToken) {
             getAppointments();
         }
     }, [dToken]);
 
+    
+    if(loadingGetAppointments || loadingCompleteAppointment || loadingCancelAppointment){
+        return (
+            <LoadingOverlay/>
+        )
+    }
+    
     return (
         <div className='w-full max-w-6xl m-5'>
             <p className='mb-3 text-lg font-medium'>All Appointments</p>

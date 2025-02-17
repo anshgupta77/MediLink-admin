@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { DoctorContext } from '../context/DoctorContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 const Login = () => {
 
@@ -12,7 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const { setAToken, backendUrl } = useContext(AdminContext);
   const { setDToken } = useContext(DoctorContext);
 
@@ -20,6 +21,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       if (state === "Admin") {
@@ -29,7 +31,7 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem("aToken", data.token);
           setAToken(data.token);  
-          navigate("/admin-dashboard");
+          navigate("/");
         } else {
           toast.error(data.message);
         }
@@ -50,6 +52,8 @@ const Login = () => {
 
     } catch (error) {
       console.error("Error during login:", error.response ? error.response.data : error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,7 +83,12 @@ const Login = () => {
             </button>
           </div>
         </div>
-        <button className='bg-primary text-white w-full py-2 rounded-md text-base'>Login</button>
+        <button className='bg-primary text-white w-full py-2 rounded-md text-base'>
+        <div className="flex items-center justify-center gap-2">
+            {loading && <Loader2 className="text-white animate-spin" />}
+            Login
+          </div>
+          </button>
         {
           state === "Admin" ?
             <p>For login as Doctor? <span className='text-primary hover:underline cursor-pointer' onClick={() => setState("Doctor")}>Click here</span></p> :

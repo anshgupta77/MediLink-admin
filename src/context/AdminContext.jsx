@@ -11,12 +11,17 @@ const AdminContextProvider = (props) => {
     const [doctors, setDoctors] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [dashData, setDashData] = useState(false);
+    const [loadingGetDeshData, setLoadingGetDeshData] = useState(true);
+    const [loadingGetAllDoctors, setLoadingGetAllDoctors] = useState(true);
+    const [loadingGetAllAppointments, setLoadingGetAllAppointments] = useState(false);
+    const [loadingCancelAppointment, setLoadingCancelAppointment] = useState(false);
 
     // Access the environment variable from Vite
     const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
 
     const getAllDoctors = async () => {
+        setLoadingGetAllDoctors(true);
         try {
             const { data } = await axios.post(`${backendUrl}/api/admin/all-doctors`, {}, { headers: { aToken } });
             if (data.success) {
@@ -29,6 +34,8 @@ const AdminContextProvider = (props) => {
         } catch (error) {
             console.error(error);
             toast.error(error.message);
+        } finally {
+            setLoadingGetAllDoctors(false);
         }
     }
 
@@ -50,7 +57,7 @@ const AdminContextProvider = (props) => {
     }
 
     const getAllAppointments = async () => {
-
+        setLoadingGetAllAppointments(true);
         try {
             const { data } = await axios.get(`${backendUrl}/api/admin/appointments`, { headers: { aToken } });
             if (data.success) {
@@ -63,6 +70,8 @@ const AdminContextProvider = (props) => {
         } catch (error) {
             console.error(error);
             toast.error(error.message);
+        } finally {
+            setLoadingGetAllAppointments(false);
         }
     }
 
@@ -83,6 +92,7 @@ const AdminContextProvider = (props) => {
     }
 
     const getDeshData = async () => {
+        setLoadingGetDeshData(true);
         try {
             const { data } = await axios.get(`${backendUrl}/api/admin/dashboard`, { headers: { aToken } });
             if (data.success) {
@@ -93,6 +103,8 @@ const AdminContextProvider = (props) => {
             }
         } catch (error) {
             toast.error(error.message);
+        } finally {
+            setLoadingGetDeshData(false);
         }
     }
 
@@ -104,7 +116,11 @@ const AdminContextProvider = (props) => {
         appointments, setAppointments,
         getAllAppointments,
         cancelAppointment,
-        dashData, getDeshData
+        dashData, getDeshData,
+        loadingGetDeshData,
+        loadingGetAllDoctors,
+        loadingGetAllAppointments,
+        loadingCancelAppointment
     };
 
     return (

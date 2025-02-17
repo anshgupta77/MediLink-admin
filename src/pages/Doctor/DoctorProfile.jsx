@@ -3,13 +3,16 @@ import { DoctorContext } from '../../context/DoctorContext';
 import { AppContext } from '../../context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 const DoctorProfile = () => {
 
-  const { dToken, profileData, setProfileData, getProfileData, backendUrl } = useContext(DoctorContext);
+  const { dToken, profileData, setProfileData, getProfileData, backendUrl, loadingGetProfileData } = useContext(DoctorContext);
   const { currency } = useContext(AppContext);
 
   const [isEdit, setIsEdit] = useState(false);
+
+  
 
   const updateProfile = async () => {
     try {
@@ -38,6 +41,12 @@ const DoctorProfile = () => {
       getProfileData();
     }
   }, [dToken]);
+
+  if(loadingGetProfileData) {
+    return (
+      <LoadingOverlay />
+    )
+ }
 
   return profileData && (
     <div className='w-full max-w-6xl m-5'>

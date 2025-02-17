@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from 'react'
 import { DoctorContext } from '../../context/DoctorContext';
 import { assets } from '../../assets/assets_admin/assets';
 import { AppContext } from '../../context/AppContext';
-
+import LoadingOverlay from '../../components/LoadingOverlay';
 const DoctorDashboard = () => {
 
-  const { dToken, dashData, setDashData, getDashData, completeAppointment, cancelAppointment } = useContext(DoctorContext);
+  const { dToken, dashData, setDashData, getDashData, completeAppointment, cancelAppointment, loadingGetDashData } = useContext(DoctorContext);
   const { currency, slotDateFormate } = useContext(AppContext);
 
   useEffect(() => {
@@ -13,6 +13,12 @@ const DoctorDashboard = () => {
       getDashData();
     }
   }, [dToken]);
+
+  if (loadingGetDashData) {
+    return (
+      <LoadingOverlay />
+    )
+  }
 
   return dashData && (
     <div className='w-full max-w-6xl m-5'>
