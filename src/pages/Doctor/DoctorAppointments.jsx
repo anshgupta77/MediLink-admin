@@ -43,22 +43,22 @@ const DoctorAppointments = () => {
                         <div className='flex flex-wrap justify-between max-sm:gap-2 max-sm:text-base sm:grid sm:grid-cols-[0.5fr_2.5fr_1fr_1fr_2.5fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50' key={index}>
                             <p className='max-sm:hidden'>{index + 1}</p>
                             <div className='flex items-center gap-2'>
-                                <img className='w-8 rounded-full' src={item.userData.image} alt="" />
-                                <p>{item.userData.name}</p>
+                                <img className='w-8 rounded-full' src={item.appointment.userData.image} alt="" />
+                                <p>{item.appointment.userData.name}</p>
                             </div>
                             <div>
                                 <p className='text-xs inline border border-primary px-2 rounded-full'>
-                                    {item.payment ? "Online" : "Cash"}
+                                    {item.appointment.payment ? "Online" : "Cash"}
                                 </p>
                             </div>
-                            {console.log(item.userData.gender)}
-                            <p className='max-sm:hidden'>{calculateAge(item.userData.dob)}</p>
-                            <p >{slotDateFormate(item.slotDate)}, {item.slotTime}</p>
-                            <p>{currency}{item.amount}</p>
+                            {console.log(item.appointment.userData.gender)}
+                            <p className='max-sm:hidden'>{calculateAge(item.appointment.userData.dob)}</p>
+                            <p >{slotDateFormate(item.appointment.slotDate)}, {item.slotTime}</p>
+                            <p>{currency}{item.appointment.amount}</p>
                             {
-                                item.cancelled
+                                item.appointment.cancelled
                                     ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
-                                    : item.isCompleted
+                                    : item.appointment.isCompleted
                                         ? <p className='text-green-500 text-xs font-medium'>Completed</p>
                                         : <div className='flex'>
                                             <img onClick={() => cancelAppointment(item._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
