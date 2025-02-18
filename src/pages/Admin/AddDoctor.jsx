@@ -26,7 +26,6 @@ const AddDoctor = () => {
     e.preventDefault()
     setLoading(true)
     try {
-
       if (!docImg) {
         return toast.error('Please upload doctor image')
       }
