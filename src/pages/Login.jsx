@@ -31,7 +31,7 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem("aToken", data.token);
           setAToken(data.token);  
-          navigate("/");
+          navigate("/admin-dashboard");
         } else {
           toast.error(data.message);
         }
