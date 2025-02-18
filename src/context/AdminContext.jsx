@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
-
+import { backendUrl } from "../constraints";
 // Create the context
 export const AdminContext = createContext();
 
@@ -17,7 +17,9 @@ const AdminContextProvider = (props) => {
     const [loadingCancelAppointment, setLoadingCancelAppointment] = useState(false);
 
     // Access the environment variable from Vite
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+    
+
+    console.log("Admin Context", backendUrl);
 
 
     const getAllDoctors = async () => {
