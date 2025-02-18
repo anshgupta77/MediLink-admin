@@ -16,8 +16,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { setAToken, backendUrl } = useContext(AdminContext);
   const { setDToken } = useContext(DoctorContext);
-
-
+  
+  console.log(backendUrl);
   const navigate = useNavigate();
 
   const onSubmitHandler = async (e) => {
@@ -38,7 +38,6 @@ const Login = () => {
 
       }
       else {
-
         const { data } = await axios.post(`${backendUrl}/api/doctor/login`, { email, password });
 
         if (data.success) {
