@@ -21,10 +21,10 @@ const App = () => {
   const { dToken } = useContext(DoctorContext);
 
   return aToken || dToken ? (
-    <div className='bg-[#F8F9FD]'>
+    <div className=''>
       <ToastContainer />
       <Navbar />
-      <div className='flex items-start'>
+      <div className='flex items-star'>
         <Sidebar />
         <Routes>
           <Route path="/admin-dashboard" element={<Dashboard />} />

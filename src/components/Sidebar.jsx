@@ -14,7 +14,7 @@ const Sidebar = () => {
     const { dToken } = useContext(DoctorContext);
 
     return (
-        <div className="min-h-screen bg-[#130e3d] border-r border-white/10">
+        <div className="h-auto min-h-screen bg-[#130e3d] border-r border-white/10">
             {aToken && (
                 <ul className="mt-5 space-y-1 px-3">
                     <NavLink 
