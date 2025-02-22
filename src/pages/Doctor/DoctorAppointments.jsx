@@ -5,13 +5,14 @@ import LoadingOverlay from '../../components/LoadingOverlay';
 import RemoveConfirmation from '../../components/RemoveConfirm';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { backendUrl } from '../../constraints';
 
 const DoctorAppointments = () => {
   const { dToken, appointments, getAppointments, completeAppointment, cancelAppointment, loadingGetAppointments, loadingCompleteAppointment, loadingCancelAppointment } = useContext(DoctorContext);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const { calculateAge, slotDateFormate, currency } = useContext(AppContext);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  
 
   useEffect(() => {
     if (dToken) {
