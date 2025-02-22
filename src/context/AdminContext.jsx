@@ -15,6 +15,7 @@ const AdminContextProvider = (props) => {
     const [loadingGetAllDoctors, setLoadingGetAllDoctors] = useState(true);
     const [loadingGetAllAppointments, setLoadingGetAllAppointments] = useState(false);
     const [loadingCancelAppointment, setLoadingCancelAppointment] = useState(false);
+    const [loadingChangeAvailability, setLoadingChangeAvailability] = useState(false);
 
     // Access the environment variable from Vite
     
@@ -42,6 +43,7 @@ const AdminContextProvider = (props) => {
     }
 
     const changeAvailability = async (docId) => {
+        setLoadingChangeAvailability(true);
         try {
             const { data } = await axios.post(`${backendUrl}/api/admin/change-availability`, { docId }, { headers: { aToken } });
             if (data.success) {
@@ -54,6 +56,8 @@ const AdminContextProvider = (props) => {
         } catch (error) {
             console.error(error);
             toast.error(error.message);
+        } finally {
+            setLoadingChangeAvailability(false);
         }
 
     }
