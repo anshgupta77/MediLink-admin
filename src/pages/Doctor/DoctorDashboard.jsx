@@ -75,7 +75,7 @@ const DoctorDashboard = () => {
         <div className="bg-white/10 border border-white/20 p-6 rounded-lg backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
           <div className="flex items-center gap-4">
             <img className="w-14" src={assets.appointments_icon} alt="" />
-            <div>
+            <div> 
               <p className="text-2xl font-bold text-white">{dashData.appointments}</p>
               <p className="text-[#d3bccc]/70">Total Appointments</p>
             </div>
@@ -108,7 +108,7 @@ const DoctorDashboard = () => {
           {dashData.latestAppointments.map((item, index) => (
             <div
               key={index}
-              className="p-4 hover:bg-white/10 transition-all duration-300 flex items-center justify-between"
+              className="p-4 hover:bg-white/10 transition-all duration-300 flex flex-col lg:flex-row items-center justify-between gap-5"  
             >
               <div className="flex items-center gap-4">
                 <img
