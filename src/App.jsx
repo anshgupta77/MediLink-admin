@@ -41,8 +41,10 @@ const App = () => {
     </div>
   ) : (
     <>
-      <Login />
       <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes> 
     </>
   )
 }
