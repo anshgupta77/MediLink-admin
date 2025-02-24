@@ -13,6 +13,8 @@ const Sidebar = () => {
     const { aToken } = useContext(AdminContext);
     const { dToken } = useContext(DoctorContext);
 
+    console.log("atoken", aToken, "dtoken", dToken);
+
     return (
         <div className="h-auto min-h-screen bg-[#130e3d] border-r border-white/10">
             {aToken && (

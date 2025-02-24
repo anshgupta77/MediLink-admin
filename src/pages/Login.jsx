@@ -15,6 +15,16 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { setAToken, backendUrl } = useContext(AdminContext);
   const { setDToken } = useContext(DoctorContext);
+
+  const aToken = localStorage.getItem("aToken");
+  const dToken = localStorage.getItem("dToken");
+
+  if(aToken){
+    localStorage.removeItem("aToken");
+  }
+  if(dToken){
+    localStorage.removeItem("dToken");
+  }
   
   console.log(backendUrl);
   const navigate = useNavigate();
