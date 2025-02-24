@@ -43,6 +43,8 @@ const DoctorAppointments = () => {
     }
   }
 
+  
+
   return (
     <div className='w-full bg-[#130e3d] text-[#d3bccc] p-3 md:p-6 shadow-lg border border-white/10'>
       <p className='mb-3 text-base md:text-lg font-medium bg-clip-text text-[#D3BCCC] bg-gradient-to-r from-white to-purple-100'>
