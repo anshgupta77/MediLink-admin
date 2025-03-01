@@ -13,6 +13,8 @@ const Sidebar = () => {
     const { aToken } = useContext(AdminContext);
     const { dToken } = useContext(DoctorContext);
 
+    console.log(aToken, dToken);
+
     console.log("atoken", aToken, "dtoken", dToken);
 
     return (
