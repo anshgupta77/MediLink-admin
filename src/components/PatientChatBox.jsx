@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Send, X, MessageSquare } from 'lucide-react';
 import { toast } from 'react-toastify';
 import socket from './../socket';
+import { backendUrl } from './../constraints';
 
 const PatientChatBox = ({ patientId, patientName, patientImage, isOpen, setIsOpen }) => {
   const [message, setMessage] = useState('');
@@ -16,17 +17,17 @@ const PatientChatBox = ({ patientId, patientName, patientImage, isOpen, setIsOpe
 
   
   const { dToken, profileData } = useContext(DoctorContext);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  console.log("DoctorContext", profileData);
   
   // Fetch chat history when component mounts
   useEffect(() => {
     if (isOpen && dToken) {
         fetchChatHistory();
         socket.connect();
-        socket.emit("doctorOnline", profileData._id);
+        socket.emit("clientOnline", {clientId: profileData._id, doctorName: profileData.name});
 
-        socket.on("receiveMessage", (message) => {
-          setMessages((prev) => [...prev, message]);
+        socket.on("receiveMessage", ({senderId, receiverId, message, timestamp, sender}) => {
+          setMessages((prev) => [...prev, {senderId, receiverId, message, timestamp, sender}]);
         });
     }
     
@@ -64,11 +65,7 @@ const PatientChatBox = ({ patientId, patientName, patientImage, isOpen, setIsOpe
     
     setLoading(true);
     try {
-      const { data } = await axios.get(
-        `${backendUrl}/api/chat/${profileData._id}/${patientId}`,
-        { headers: { dToken } }
-      );
-      
+      const { data } = await axios.get(`${backendUrl}/api/chat/${profileData._id}/${patientId}`);
       if (data.success) {
         setMessages(data.messages || []);
       }
@@ -105,9 +102,7 @@ const PatientChatBox = ({ patientId, patientName, patientImage, isOpen, setIsOpe
     try {
       const { data } = await axios.post(
         `${backendUrl}/api/chat/sendMessage`, 
-        newMessage,
-        { headers: { dToken } }
-      );
+        newMessage);
       
       if (data.success) {
         // Replace temp message with confirmed one from server
@@ -151,7 +146,7 @@ const PatientChatBox = ({ patientId, patientName, patientImage, isOpen, setIsOpe
             />
             <div>
               <h3 className="font-semibold text-white">{patientName}</h3>
-              <p className="text-xs text-gray-300">Patient</p>
+              <p className="text-xs text-gray-300">Online</p>
             </div>
           </div>
           <button 

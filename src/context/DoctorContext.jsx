@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import { backendUrl } from "../constraints";
+import { useEffect } from "react";
 export const DoctorContext = createContext();
 
 const DoctorContextProvider = (props) => {
@@ -94,6 +95,7 @@ const DoctorContextProvider = (props) => {
     setLoadingGetProfileData(true);
     try {
       const { data } = await axios.get(`${backendUrl}/api/doctor/profile`, { headers: { dToken } });
+      console.log(data);
       if (data.success) {
         setProfileData(data.profileData);
       }
@@ -124,6 +126,12 @@ const DoctorContextProvider = (props) => {
     loadingCompleteAppointment,
     loadingCancelAppointment
   };
+
+  useEffect(() => {
+      if (dToken) {
+        getProfileData();
+      }
+    }, [dToken]);
 
   return (
     <DoctorContext.Provider value={value}>
