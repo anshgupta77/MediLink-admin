@@ -1,19 +1,24 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import { DoctorContext } from '../../context/DoctorContext';
 import { assets } from '../../assets/assets_admin/assets';
 import { AppContext } from '../../context/AppContext';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import RemoveConfirmation from '../../components/RemoveConfirm';
+import PatientChatBox from '../../components/PatientChatBox';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { backendUrl } from "../../constraints";
+import { MessageSquare } from 'lucide-react';
 
 
 const DoctorDashboard = () => {
   const { dToken, dashData, getDashData, completeAppointment, cancelAppointment, loadingGetDashData } = useContext(DoctorContext);
   const { currency, slotDateFormate } = useContext(AppContext);
+  const [isOpen, setIsOpen] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [chatPatient, setChatPatient] = useState(null);
   // const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
   useEffect(() => {
@@ -48,6 +53,15 @@ const DoctorDashboard = () => {
       console.error(error);
       toast.error(error.response.data.message || "Something went wrong");
     }
+  };
+
+  const handleChatClick = (appointment) => {
+    setChatPatient({
+      id: appointment.userData._id,
+      name: appointment.userData.name,
+      image: appointment.userData.image
+    });
+    setIsOpen(prev => !prev);
   };
 
   return dashData && (
@@ -125,9 +139,20 @@ const DoctorDashboard = () => {
               </div>
               
               <div className="flex items-center gap-3">
+                {/* Chat button - always visible regardless of appointment status */}
+                <button 
+                  onClick={() => handleChatClick(item.appointment)}
+                  className="patient-chat-btn px-3 py-1.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors"
+                >
+                  <div className="flex items-center gap-1">
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Chat</span>
+                  </div>
+                </button>
+                
                 {item.appointment.cancelled ? (
                   <>
-                    <span className="px-4 py-1.5 rounded-full text-xs font-medium  text-red-400">
+                    <span className="px-4 py-1.5 rounded-full text-xs font-medium text-red-400">
                       Cancelled
                     </span>
                     <button
@@ -154,14 +179,24 @@ const DoctorDashboard = () => {
                     </button>
                   </>
                 ) : (
-                    <div className='flex gap-2'>
-                      <button onClick={() => cancelAppointment(item.appointment._id)} className='text-red-400 text-[10px] font-medium'><span className="px-4 py-1.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400">
-                      Cancel
-                    </span></button>
-                      <button onClick={() => completeAppointment(item.appointment._id)} className='text-green-400 text-[10px] font-medium'><span className="px-4 py-1.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400">
-                      Complete
-                    </span></button>
-                    </div>
+                  <div className='flex gap-2'>
+                    <button 
+                      onClick={() => cancelAppointment(item.appointment._id)} 
+                      className='text-red-400 text-[10px] font-medium'
+                    >
+                      <span className="px-4 py-1.5 rounded-full text-xs font-medium bg-red-500/10 text-red-400">
+                        Cancel
+                      </span>
+                    </button>
+                    <button 
+                      onClick={() => completeAppointment(item.appointment._id)} 
+                      className='text-green-400 text-[10px] font-medium'
+                    >
+                      <span className="px-4 py-1.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400">
+                        Complete
+                      </span>
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -169,12 +204,24 @@ const DoctorDashboard = () => {
         </div>
       </div>
 
+      {/* Confirmation Modal for Removing Appointment */}
       <RemoveConfirmation
         isOpen={showRemoveModal}
         onClose={() => setShowRemoveModal(false)}
         onConfirm={() => handleConfirmDelete(selectedAppointment?._id)}
         DeleteDataName={selectedAppointment?.userData.name}
       />
+
+      {/* Patient Chat Box */}
+      {chatPatient && (
+        <PatientChatBox
+          patientId={chatPatient.id}
+          patientName={chatPatient.name}
+          patientImage={chatPatient.image}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+      )}
     </div>
   );
 };
